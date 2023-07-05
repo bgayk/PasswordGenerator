@@ -7,6 +7,7 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+  
 }
 
 /* generatePassword will prompt the user for the password criteria and generate a password
@@ -34,20 +35,17 @@ function generatePassword() {
   var arrSpecialCharacters = "!@#$%^&*()_+~`|}{[]:;?><,./-=".split("");
 
 
-// prompt user for blnLowercase, blnUppercase, blnNumeric, and blnSpecial characters
-var blnLowercase = confirm("Would you like to include Lowercase letters?");
-var blnUppercase = confirm("Would you like to include Uppercase letters?");
-var blnNumeric = confirm("Would you like to include Numbers?");
-var blnSpecial = confirm("Would you like to include the Special Characters: " + "\n   ( " + arrSpecialCharacters.join("") + "  )?");
+  // prompt user for blnLowercase, blnUppercase, blnNumeric, and blnSpecial characters
+  var blnLowercase = confirm("Include Lowercase letters?");
+  var blnUppercase = confirm("Include Uppercase letters?");
+  var blnNumeric = confirm("Include Numbers?");
+  var blnSpecial = confirm("Include the Special Characters: " + "\n   ( " + arrSpecialCharacters.join("") + "  )?");
 
-// if user does not choose any of the character types, alert user to choose at least one character type
-if (!blnLowercase && !blnUppercase && !blnNumeric && !blnSpecial) {
-  alert("Please choose at least one character type.");
-  return;
-}
-
-
-
+  // if user does not choose any of the character types, alert user to choose at least one character type
+  if (!blnLowercase && !blnUppercase && !blnNumeric && !blnSpecial) {
+    alert("Please choose at least one character type.");
+    return;
+  }
 
 
   // creating an empty array to store the user's selected character types
@@ -73,14 +71,14 @@ if (!blnLowercase && !blnUppercase && !blnNumeric && !blnSpecial) {
   
  // creating an empty array to store the password
  var arrPassword = [];
- var loopCount = 0;
+ var nbrAttemptCount = 0;
  // loop until the password array contains the user selected characters and result is verified
  // in the unlikely event we cannot produce the requested result, we'll stop after 100 tries
   do { 
       arrPassword = [];
       
-      loopCount++;
-      if (loopCount > 100) {
+      nbrAttemptCount++;
+      if (nbrAttemptCount > 100) {
         arrPassword.push("** Error. Please try again. **");
         break;
       }
@@ -150,8 +148,18 @@ if (!blnLowercase && !blnUppercase && !blnNumeric && !blnSpecial) {
       }
   } while (arrPassword.length != nbrPWDLength);
 
+  console.log(" Password Length Req: " + nbrPWDLength + "\n" +
+              "       UpperCase Req: " + blnUppercase + "\n" +
+              "       LowerCase Req: " + blnLowercase + "\n" + 
+              "         Numeric Req: " + blnNumeric   + "\n" +
+              "         Special Req: " + blnSpecial  + "\n" +
+              "       Attempt Count: " + nbrAttemptCount + "\n" + 
+              "Resulting Pwd Length: " + arrPassword.length                          
+              );
+
+  console.log();
   // return the array arrPassword as a string
-  return arrPassword.join("");
+  return arrPassword.join(""); 
 }
 
 
