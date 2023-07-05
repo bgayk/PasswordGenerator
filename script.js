@@ -15,14 +15,13 @@ function writePassword() {
     will be displayed and the user will be prompted to try again. the routine will attempt
     to generate a password 100 times before giving up and displaying an error message. */
 function generatePassword() {
-  // prompt user for password length
-  var nbrPWDLength = prompt("How many characters would you like your password to be starting from 8 and up to 128?");
-  // if length is less than 8 or greater than 128, alert user to choose a number between 8 and 128
-  if (nbrPWDLength < 8 || nbrPWDLength > 128) {
-    alert("Please choose a number between 8 and 128.");
-    return;
-  }
-  
+ // creating an empty array to store the password
+ var arrPassword = [];
+ var nbrAttemptCount = 0;
+ // maximum number of attempts to generate a password matching the user's selected criteria
+ const nbrMaxAttempts = 1000; 
+
+ 
   // creating arrays for each character type: Lowercase, Uppercase, Numbers, and Special characters
  
   // creating an array of blnLowercase letters
@@ -34,6 +33,19 @@ function generatePassword() {
   // creating an array of Special characters
   var arrSpecialCharacters = "!@#$%^&*()_+~`|}{[]:;?><,./-=".split("");
 
+  // creating an empty array to store the user's selected character array values
+  // the selected character types will be appended/concatenated to the arrChosenCharacters array
+  var arrChosenCharacters = [];
+
+  
+  // prompt user for password length
+  var nbrPWDLength = prompt("How many characters would you like your password to be starting from 8 and up to 128?");
+  // if length is less than 8 or greater than 128, alert user to choose a number between 8 and 128
+  if (nbrPWDLength < 8 || nbrPWDLength > 128) {
+    alert("Please choose a number between 8 and 128.");
+    return;
+  }
+  
 
   // prompt user for blnLowercase, blnUppercase, blnNumeric, and blnSpecial characters
   var blnLowercase = confirm("Include Lowercase letters?");
@@ -47,11 +59,7 @@ function generatePassword() {
     return;
   }
 
-
-  // creating an empty array to store the user's selected character types
-  // the selected character types will be appended/concatenated to the arrChosenCharacters array
-  var arrChosenCharacters = [];
-
+  // Concatenating required character types to the arrChosenCharacters array if selected.
   if (blnLowercase) {
     arrChosenCharacters = arrChosenCharacters.concat(arrLowercaseChars);
   }
@@ -67,19 +75,16 @@ function generatePassword() {
   if (blnSpecial) {
     arrChosenCharacters = arrChosenCharacters.concat(arrSpecialCharacters);
   }
-
-  
- // creating an empty array to store the password
- var arrPassword = [];
- var nbrAttemptCount = 0;
+ 
  // loop until the password array contains the user selected characters and result is verified
  // in the unlikely event we cannot produce the requested result, we'll stop after 100 tries
   do { 
       arrPassword = [];
       
       nbrAttemptCount++;
-      if (nbrAttemptCount > 100) {
-        arrPassword.push("** Error. Please try again. **");
+      if (nbrAttemptCount > nbrMaxAttempts) {
+        arrPassword.push("Internal Error: Max generation attempts of " + nbrMaxAttempts + "met. \n" +
+                         "Please try again.");
         break;
       }
 
@@ -157,18 +162,18 @@ function generatePassword() {
               "Resulting Pwd Length: " + arrPassword.length                          
               );
 
-  console.log();
+
+   
   // return the array arrPassword as a string
-  return arrPassword.join(""); 
+  if (arrPassword.join("") == "undefined") 
+  {
+    return "Internal Error: Password generation failed. Please try again.";
+  }
+ else 
+  {
+    return arrPassword.join("");
+  }   
 }
-
-
-
-
-
-
-
-
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
