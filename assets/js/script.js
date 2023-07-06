@@ -30,8 +30,9 @@ function generatePassword() {
   var arrUppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
   // creating an array of numbers
   var arrNumbers = "0123456789".split("");
-  // creating an array of Special characters
-  var arrSpecialCharacters = "!@#$%^&*()_+~`|}{[]:;?><,./-=".split("");
+  // creating an array of Special characters 
+  // removed single and double quotes from recommended special characters
+  var arrSpecialCharacters = "!#$%&()*+,-./:;<=>?@[\]^_{|}~".split("");
 
   // creating an empty array to store the user's selected character array values
   // the selected character types will be appended/concatenated to the arrChosenCharacters array
@@ -165,7 +166,8 @@ function generatePassword() {
 
    
   // return the array arrPassword as a string
-  if (arrPassword.join("") == "undefined") 
+  if (arrPassword.join("") == "undefined" || arrPassword.join("") == "" 
+      || arrPassword.length == 0)
   {
     return "Internal Error: Password generation failed. Please try again.";
   }
